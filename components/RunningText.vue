@@ -28,6 +28,7 @@ const displayedText = ref('')
 const displayedImage = ref('')
 const isTextVisible = ref(true)
 const isImageVisible = ref(false)
+let isStillMutating = false
 const flexPosition = ref("justify-center")
 
 watch(message, () => {
@@ -35,8 +36,11 @@ watch(message, () => {
 }, { immediate: true })
 
 async function mutateText() {
+    if (isStillMutating) return
+
     setEvent('delete')
     isTextVisible.value = false
+    isStillMutating = true
 
     // text deleteion animation
     // while (displayedText.value.length > 0) {
@@ -58,12 +62,12 @@ async function mutateText() {
     displayedImage.value = message.value.image
 
     for (let c of message.value.text) {
-        if (model.value === 'delete') break
         displayedText.value += c
         await sleep(dataStore.data.typing.delay)
     }
 
     setEvent('done')
+    isStillMutating = false
 }
 
 function getFlexPosition() {
