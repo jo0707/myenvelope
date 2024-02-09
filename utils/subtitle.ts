@@ -1,4 +1,4 @@
-export async function parseSRT(url: string = "subtitle.srt") {
+export async function parseSRT(url: string = "/subtitle.srt") {
   let subs: Subtitle[] = []
 
   let srtContent = await (await fetch(url)).text()
