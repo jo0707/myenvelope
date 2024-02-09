@@ -18,6 +18,11 @@
 </template>
 
 <script setup lang="ts">
+import { useDataStore } from '~/store/dataStore';
+
+const dataStore = useDataStore()
+const { splashClicked } = storeToRefs(dataStore)
+
 const audio = ref<HTMLAudioElement | null>(null)
 const subtitles = ref<Subtitle[]>([])
 const isPlaying = ref(false)
@@ -29,6 +34,10 @@ watch(currentSubtitle, (newVal) => {
     setTimeout(() => {
         showSubtitle.value = !!newVal
     }, 200);
+})
+
+watch(splashClicked, (newVal) => {
+    if (newVal) isPlaying.value = true
 })
 
 watchEffect(() => {

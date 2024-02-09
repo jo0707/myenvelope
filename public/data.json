@@ -1,6 +1,8 @@
 {
   "music": 1,
   "youtubeUrl": "",
+  "name": "Gazebooo",
+
   "background": {
     "topColor": "",
     "bottomColor": "",
@@ -11,29 +13,33 @@
     "starSize": [0, 2]
   },
   "typing": {
-    "delay": 10,
+    "delay": 45,
     "textColor": ""
   },
   "messages": [
-    "Hi!",
-    "You can play the song below if you want :)",
-    "Can I share my feelings?",
-    "Every day i wake up wondering if I'll ever be the same person i was the day before",
-    "When i first met you I let all my doubt and pains float away",
-    "But instead you left my heart shattered like broken glass on the floor.",
-    "Why don't i ever learn?",
-    "I was too emotional i felt all the pain",
-    "Until i couldn't feel it anymore",
-    "No its not your fault..It's mine",
-    "I was too emotional",
-    "So now",
-    "I'll be emotionless",
-    "No more pains",
-    "No more tears",
-    "No more sorrows",
-    "There won't be any feelings there for you to shatter like window panes.",
-    "I won't be human I'll be something else",
-    "I'll become numb.",
-    "So emotionless."
+    "Hai teman-teman Gazebo ku...",
+    "Terimakasih untuk perjalanan kita sejauh ini",
+    "Aku ingin mengatakan sesuatu",
+    "Kalau pino ada varian baru!",
+    "Hahaha... maaf, cuma bercanda",
+    "By the way, semoga kita semua tetap diberikan kelancaran untuk perkuliahan kita...",
+    "Semoga apapun yang menimpa kita, kita tetap saling menolong dan melanjutkan perjalanan kita",
+    {
+      "text": "Anggap aja teks romantis...",
+      "position": 1,
+      "image": "https://pasteboard.co/JErVMyLrWDAF.jpg"
+    },
+    {
+      "text": "...",
+      "position": 1,
+      "image": "https://pasteboard.co/0WQo8vaMs8M7.jpg"
+    },
+    {
+      "text": "Apri pendukung 01",
+      "position": 1,
+      "image": "https://pasteboard.co/ilFEH7BtmC0i.jpg"
+    },
+    "Itu saja teman-temanku...",
+    "Sampai jumpa di perjalanan kita selanjutnya :)"
   ]
 }

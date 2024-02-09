@@ -1,7 +1,7 @@
 <template>
     <div>
-        <UContainer class="h-screen flex flex-col">
-            <header class=""></header>
+        <UContainer class="h-screen flex flex-col ">
+            <header></header>
 
             <main class="grow">
                 <slot></slot>
@@ -9,7 +9,7 @@
 
 
             <UDivider />
-            <footer class="py-4">
+            <footer class="py-4 ">
                 <AudioPlayer />
             </footer>
         </UContainer>

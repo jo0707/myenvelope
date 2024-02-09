@@ -1,11 +1,11 @@
 <template>
-    <div class="relative h-full w-full flex place-items-center" :class="flexPosition">
+    <div class="relative h-full w-full flex justify-center place-items-center">
         <Transition appear name="fade">
             <RunningText :text="text" :position="5" v-model="runningTextStatus" @done="" @clear="" @start="" @delete="" />
         </Transition>
-        <div class="w-full absolute bottom-0 flex justify-between max-w-xl p-2">
-            <TheButton icon="i-heroicons-chevron-left" @click="index--" />
-            <TheButton icon="i-heroicons-chevron-right" @click="index++" />
+        <div class="w-full absolute bottom-0 flex justify-between max-w-sm p-2">
+            <TheButton icon="i-heroicons-chevron-left" @click="prev()" />
+            <TheButton icon="i-heroicons-chevron-right" @click="next()" />
         </div>
     </div>
 </template>
@@ -13,11 +13,9 @@
 <script setup lang="ts">
 import { useDataStore } from '~/store/dataStore';
 const dataStore = useDataStore()
+const { index } = storeToRefs(dataStore)
 
 let runningTextStatus = ref("done")
-let index = ref(0)
-let position = ref(2)
-let flexPosition = ref(getFlexPosition())
 
 const text = computed(() => {
     let message = dataStore.data?.messages[index.value]
@@ -26,33 +24,27 @@ const text = computed(() => {
 
 watchEffect(() => {
     let message = dataStore.data?.messages[index.value]
-    position.value = message?.position ?? 2
 })
 
-watch(runningTextStatus, (status) => {
-    if (status == "clear") flexPosition.value = getFlexPosition()
-})
-
-function getFlexPosition() {
-    if (position.value == 1) return "justify-start"
-    else if (position.value == 2) return "justify-center"
-    else if (position.value == 3) return "justify-end"
+function next() {
+    if (runningTextStatus.value === "clear" || runningTextStatus.value === "done") {
+        if (index.value < dataStore.data.messages.length) index.value++
+    }
+}
+function prev() {
+    if (runningTextStatus.value === "clear" || runningTextStatus.value === "done") {
+        if (index.value > 0) index.value--
+    }
 }
 
 onMounted(() => {
     document.onkeydown = (e) => {
-        console.log(e.code);
-
-        if (runningTextStatus.value === "clear" || runningTextStatus.value === "done") {
-            if (e.code == 'ArrowLeft') {
-                if (index.value > 0) index.value--
-            }
-            else if (e.code == 'ArrowRight') {
-                index.value++
-                if (index.value == dataStore.data?.messages.length) index.value = 0
-            }
+        if (e.code == 'ArrowLeft') {
+            next()
         }
-
+        else if (e.code == 'ArrowRight') {
+            prev()
+        }
     }
 })
 </script>
