@@ -1,0 +1,39 @@
+{
+  "music": 1,
+  "youtubeUrl": "",
+  "background": {
+    "topColor": "",
+    "bottomColor": "",
+    "type": "dot",
+    "starAngle": 0,
+    "starQuantity": 100,
+    "starOpacity": [0.1, 0.8],
+    "starSize": [0, 2]
+  },
+  "typing": {
+    "delay": 10,
+    "textColor": ""
+  },
+  "messages": [
+    "Hi!",
+    "You can play the song below if you want :)",
+    "Can I share my feelings?",
+    "Every day i wake up wondering if I'll ever be the same person i was the day before",
+    "When i first met you I let all my doubt and pains float away",
+    "But instead you left my heart shattered like broken glass on the floor.",
+    "Why don't i ever learn?",
+    "I was too emotional i felt all the pain",
+    "Until i couldn't feel it anymore",
+    "No its not your fault..It's mine",
+    "I was too emotional",
+    "So now",
+    "I'll be emotionless",
+    "No more pains",
+    "No more tears",
+    "No more sorrows",
+    "There won't be any feelings there for you to shatter like window panes.",
+    "I won't be human I'll be something else",
+    "I'll become numb.",
+    "So emotionless."
+  ]
+}
