@@ -40,10 +40,10 @@ function prev() {
 onMounted(() => {
     document.onkeydown = (e) => {
         if (e.code == 'ArrowLeft') {
-            next()
+            prev()
         }
         else if (e.code == 'ArrowRight') {
-            prev()
+            next()
         }
     }
 })
