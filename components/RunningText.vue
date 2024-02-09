@@ -21,7 +21,6 @@ import { sleep } from '~/utils/timer';
 const dataStore = useDataStore()
 const { index, message } = storeToRefs(dataStore)
 
-
 const model = defineModel<string>()
 const emits = defineEmits(['done', 'clear', 'start', 'delete'])
 
@@ -59,6 +58,7 @@ async function mutateText() {
     displayedImage.value = message.value.image
 
     for (let c of message.value.text) {
+        if (model.value === 'delete') break
         displayedText.value += c
         await sleep(dataStore.data.typing.delay)
     }

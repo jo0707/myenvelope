@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-screen h-screen overflow-hidden ">
+  <div class="relative w-screen h-screen overflow-hidden text-center">
     <div class="w-screen h-screen absolute top-0 left-0 -z-10">
       <canvas class="w-screen h-screen" ref="canvas"></canvas>
     </div>
