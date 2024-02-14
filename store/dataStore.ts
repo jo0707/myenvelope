@@ -4,7 +4,6 @@ import type { EnvelopeResponse } from "~/types/response/envelopeResponse"
 
 export const useDataStore = defineStore("data", () => {
   const data = useStorage("data", defaultData)
-  const displayData = useStorage("data_to_display", defaultData)
   const createLink = useStorage("create_link", "")
 
   const error = ref<{ message: string; code: number } | null>(null)
