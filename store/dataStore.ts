@@ -28,7 +28,7 @@ export const useDataStore = defineStore("data", () => {
     createLink.value = createLink.value.replace(/[^a-zA-Z0-9_-]/g, "").replace(" ", "_")
   })
 
-  async function fetchDataFromServer(slug: string = "/data.json") {
+  async function fetchDataFromServer(slug: string | null = null) {
     try {
       const response = await fetch(slug ? `/api/envelope?slug=${slug}` : "/data.json", {
         method: "GET",
