@@ -1,38 +1,107 @@
 import type { Data, Message } from "~/types/data"
+import { useStorage } from "@vueuse/core"
+import type { EnvelopeResponse } from "~/types/response/envelopeResponse"
 
 export const useDataStore = defineStore("data", () => {
-  const data = ref<Data>(defaultData)
+  const data = useStorage("data", defaultData)
+  const displayData = useStorage("data_to_display", defaultData)
+  const createLink = useStorage("create_link", "")
+
   const error = ref<{ message: string; code: number } | null>(null)
+  const loading = ref(true)
+  const saveResult = ref<{ success: boolean; message: string } | null>(null)
 
   const splashClicked = ref(false)
   const index = ref(0)
 
+  const songTitle = computed(() => {
+    return songTitles.get(data.value?.music.id ?? 0) ?? ""
+  })
+
   const message = computed<Message>(() => {
     let m = data.value?.messages.at(index.value) ?? ""
     let me = typeof m == "string" ? getMessage(m) : m
-
-    if (me.image && me.image.includes("pasteboard.co")) {
-      let slug = me.image.split("/").pop()
-      me.image = `https://gcdnb.pbrd.co/images/${slug}?o=1`
-    }
-
     return me
   })
 
-  async function fetchData(dataUrl: string = "/data.json") {
-    const response = await fetch(dataUrl)
+  watchEffect(() => {
+    // rewrite createLink with format [a-zA-Z0-9_-]
+    createLink.value = createLink.value.replace(/[^a-zA-Z0-9_-]/g, "").replace(" ", "_")
+  })
 
-    if (!response.ok) {
-      error.value = {
-        code: response.status,
-        message: response.statusText,
+  async function fetchDataFromServer(slug: string = "/data.json") {
+    try {
+      const response = await fetch(slug ? `/api/envelope?slug=${slug}` : "/data.json", {
+        method: "GET",
+      })
+
+      if (!response.ok) {
+        error.value = {
+          code: response.status,
+          message: response.statusText,
+        }
       }
-    }
 
-    data.value = { ...defaultData, ...JSON.parse(await response.text()) }
+      const parsed = JSON.parse(await response.text())
+      const responseData = slug ? JSON.parse(parsed.data) : parsed
+
+      console.log(responseData)
+
+      data.value = { ...defaultData, ...responseData }
+    } catch (e) {
+      console.error("Error fetching data:", e)
+      error.value = {
+        code: 500,
+        message: e.message,
+      }
+    } finally {
+      loading.value = false
+    }
   }
 
-  return { fetchData, data, index, message, splashClicked }
+  async function fetchDataFromLocal() {
+    data.value = localStorage.getItem("data") ? JSON.parse(localStorage.getItem("data")!) : defaultData
+  }
+
+  async function saveToServer() {
+    try {
+      const response = await $fetch<EnvelopeResponse>("/api/envelope", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: {
+          slug: createLink.value,
+          data: data.value,
+        },
+      })
+
+      saveResult.value = {
+        success: true,
+        message: response.slug,
+      }
+    } catch (e) {
+      console.error("Error saving data:", e)
+      saveResult.value = {
+        success: false,
+        message: e.message,
+      }
+    }
+  }
+
+  return {
+    fetchDataFromServer,
+    fetchDataFromLocal,
+    data,
+    error,
+    index,
+    message,
+    splashClicked,
+    songTitle,
+    createLink,
+    saveToServer,
+    saveResult,
+  }
 })
 
 export function getMessage(text: string): Message {
@@ -40,43 +109,60 @@ export function getMessage(text: string): Message {
     text: text,
     position: 2,
     image: "",
+    type: "",
+    color: "",
   }
 }
 
 export const defaultData: Data = {
-  music: 1,
-  name: "My Secret",
-  youtubeUrl: "",
+  name: "Gazebooo",
+  music: {
+    volume: 80,
+    id: 9,
+    src: "",
+    autoplay: true,
+    loop: true,
+  },
   background: {
-    topColor: "",
-    bottomColor: "",
+    topColor: "#010d14",
+    bottomColor: "#01141f",
     type: "dot",
-    starAngle: 0,
+    starAngle: 20,
     starQuantity: 100,
     starOpacity: [0.1, 0.8],
     starSize: [0, 2],
   },
   typing: {
-    delay: 10,
-    textColor: "",
+    delay: 1,
+    textColor: "#FEFEFE",
   },
   messages: [
-    "Hi!",
-    "You can play the song below if you want :)",
     {
-      text: "This is left message",
+      text: "Itu saja teman-temanku...",
+    },
+    {
+      text: "Anggap aja teks romantis...",
       position: 1,
-      image: "",
+      image: "https://pasteboard.co/JErVMyLrWDAF.jpg",
     },
     {
-      text: "This is center message",
+      text: "...",
       position: 2,
-      image: "",
+      image: "https://pasteboard.co/0WQo8vaMs8M7.jpg",
     },
     {
-      text: "This is right message",
+      text: "Apri pendukung 01",
       position: 3,
-      image: "",
+      image: "https://pasteboard.co/ilFEH7BtmC0i.jpg",
+    },
+    {
+      text: "Semoga kita semua diberikan kekuatan untuk mengahadapi tantangan kita sampai akhir...",
+    },
+
+    {
+      text: "Waktu akan selalu berganti, tapi kenangan kita tidak.",
+      type: "quote",
+      color: "#FEFEFE",
     },
   ],
 }

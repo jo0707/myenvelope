@@ -1,24 +1,29 @@
-export async function parseSRT(url: string = "/subtitle.srt") {
+export async function parseSRT(musicId: number = 0) {
   let subs: Subtitle[] = []
+  if (!musicId) return subs
 
-  let srtContent = await (await fetch(url)).text()
-  var srtArray = srtContent.split("\n\n")
+  try {
+    let srtContent = await (await fetch(`/music/${musicId}.srt`)).text()
+    var srtArray = srtContent.split("\n\n")
 
-  srtArray.forEach((srtBlock: string) => {
-    var lines = srtBlock.split("\n")
+    srtArray.forEach((srtBlock: string) => {
+      var lines = srtBlock.split("\n")
 
-    if (lines.length >= 3) {
-      var timeString = lines[1].split(" --> ")
-      var s = {
-        id: parseInt(lines[0]),
-        start: convertTimeToSeconds(timeString[0]),
-        end: convertTimeToSeconds(timeString[1]),
-        text: lines.slice(2).join("\n"),
+      if (lines.length >= 3) {
+        var timeString = lines[1].split(" --> ")
+        var s = {
+          id: parseInt(lines[0]),
+          start: convertTimeToSeconds(timeString[0]),
+          end: convertTimeToSeconds(timeString[1]),
+          text: lines.slice(2).join("\n"),
+        }
+
+        subs.push(s)
       }
-
-      subs.push(s)
-    }
-  })
+    })
+  } catch (error) {
+    console.log(error)
+  }
 
   return subs
 }

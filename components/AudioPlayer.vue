@@ -1,15 +1,16 @@
 <template>
     <div class="w-full text-center">
-        <audio ref="audio" @complete="" @timeupdate="(e) => onTimeUpdate(e)">
-            <source src="/soundtrack.mp3" type="audio/mp3">
+        <audio ref="audio" @timeupdate="onTimeUpdate()">
+            <source :src="`/music/${dataStore.data.music.id}.mp3`" type="audio/mp3">
         </audio>
 
         <div class="flex flex-col gap-1">
-            <p class="text-xs">Ella Fitzgerald - Misty</p>
+            <p class="text-xs">{{ dataStore.songTitle }}</p>
             <Transition appear name="subtitle">
                 <p v-if="showSubtitle" class="text-xs text-gray-400">{{ currentSubtitle }}</p>
             </Transition>
-            <button class="text-gray-400 hover:text-opacity-70" @click="isPlaying = !isPlaying">
+            <button class="text-gray-400 hover:text-opacity-70 w-min mx-auto flex place-content-center"
+                @click="isPlaying = !isPlaying">
                 <UIcon class="h-4 w-4" v-if="!isPlaying" name="i-heroicons-play-solid" />
                 <UIcon class="h-4 w-4" v-else name="i-heroicons-pause-solid" />
             </button>
@@ -37,7 +38,14 @@ watch(currentSubtitle, (newVal) => {
 })
 
 watch(splashClicked, (newVal) => {
-    if (newVal) isPlaying.value = true
+    if (newVal && dataStore.data.music.autoplay) isPlaying.value = true
+})
+
+watch(() => dataStore.data.music.id, () => {
+    if (audio.value) {
+        audio.value.load()
+        audio.value.play()
+    }
 })
 
 watchEffect(() => {
@@ -47,10 +55,12 @@ watchEffect(() => {
         } else {
             audio.value.pause()
         }
+
+        audio.value!.volume = dataStore.data.music.volume / 100
     }
 })
 
-function onTimeUpdate(e: Event) {
+function onTimeUpdate() {
     const timestamp = audio.value?.currentTime ?? 0
     currentSubtitle.value = subtitles.value.find(subtitle => {
         return timestamp >= subtitle.start && timestamp <= subtitle.end
@@ -58,8 +68,17 @@ function onTimeUpdate(e: Event) {
 }
 
 onMounted(async () => {
-    audio.value!.volume = 0.7
-    subtitles.value = await parseSRT("subtitle.srt")
+    subtitles.value = await parseSRT(dataStore.data.music.id)
+
+    audio.value!.onended = () => {
+        isPlaying.value = false
+
+        if (dataStore.data.music.loop) {
+            setTimeout(() => {
+                isPlaying.value = true
+            }, 2000);
+        }
+    }
 })
 </script>
 

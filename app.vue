@@ -1,18 +1,26 @@
 <template>
   <div class="relative w-screen h-screen overflow-hidden text-center">
-    <div class="w-screen h-screen absolute top-0 left-0 -z-10">
-      <canvas class="w-screen h-screen" ref="canvas"></canvas>
+    <div ref="canvasWrapper" class="w-screen h-screen absolute top-0 left-0 -z-10">
+      <canvas class="w-screen h-screen"></canvas>
     </div>
 
-    <div class="w-screen h-screen z-50">
-      <NuxtLayout>
-        <NuxtPage />
-      </NuxtLayout>
-    </div>
+    <Transition name=" fade">
+      <LoadingScreen class="w-screen h-screen fixed top-0 left-0 z-50" v-if="!dataStore.data && !dataStore.error" />
+
+      <ErrorScreen class="w-screen h-screen fixed top-0 left-0 z-50" v-else-if="dataStore.error" />
+
+      <div v-else class="w-screen h-screen z-50">
+        <NuxtLayout>
+          <NuxtPage />
+        </NuxtLayout>
+      </div>
+    </Transition>
 
     <Transition name="fade">
       <SplashScreen class="absolute w-full h-full top-0 left-0" v-show="!splashClicked" @click="splashClicked = true" />
     </Transition>
+
+    <UNotifications />
   </div>
 </template>
 
@@ -22,27 +30,50 @@ import { useDataStore } from './store/dataStore';
 
 const dataStore = useDataStore()
 const { splashClicked } = storeToRefs(dataStore)
-const canvas = ref<HTMLCanvasElement | null>(null)
+const canvasWrapper = ref<HTMLDivElement | null>(null)
+let starback: Starback | null = null
 
-dataStore.fetchData()
+watchEffect(() => {
+  if (canvasWrapper.value && dataStore.data) {
+    // starback = null
 
-onMounted(() => {
-  if (canvas.value) {
-    const starback = new Starback(canvas.value, {
+    // if (canvasWrapper.value.firstChild) {
+    //   canvasWrapper.value.firstChild.remove()
+    //   const cvs = document.createElement("canvas")
+    //   cvs.classList.add("w-screen", "h-screen")
+    //   canvasWrapper.value.appendChild(cvs)
+    // }
+
+    starback.config = {
       width: window.innerWidth,
       height: window.innerHeight,
-      type: 'dot',
-      quantity: 100,
-      direction: 20,
-      backgroundColor: ['#010d14', '#01141f'],
-      randomOpacity: [0.1, 0.8],
-      starSize: [0, 2],
+      type: dataStore.data.background.type,
+      quantity: dataStore.data.background.starQuantity,
+      direction: dataStore.data.background.starAngle,
+      backgroundColor: [dataStore.data.background.topColor, dataStore.data.background.bottomColor],
+      randomOpacity: dataStore.data.background.starOpacity,
+      starSize: dataStore.data.background.starSize,
+    }
+  }
+})
+
+onMounted(() => {
+  if (canvasWrapper.value) {
+    starback = new Starback((canvasWrapper.value.firstChild as HTMLCanvasElement), {
+      width: window.innerWidth,
+      height: window.innerHeight,
+      type: dataStore.data.background.type,
+      quantity: dataStore.data.background.starQuantity,
+      direction: dataStore.data.background.starAngle,
+      backgroundColor: [dataStore.data.background.topColor, dataStore.data.background.bottomColor],
+      randomOpacity: dataStore.data.background.starOpacity,
+      starSize: dataStore.data.background.starSize,
     })
   }
 })
 </script>
 
-<style scoped>
+<style>
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 1s ease;

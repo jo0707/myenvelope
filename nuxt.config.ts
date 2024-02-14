@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   ssr: false,
-  modules: ["@nuxt/ui", "@nuxtjs/google-fonts", "@pinia/nuxt"],
+  modules: ["@nuxt/ui", "@nuxtjs/google-fonts", "@pinia/nuxt", "@vueuse/nuxt", "nuxt-mongoose"],
   colorMode: {
     preference: "dark",
   },
@@ -10,6 +10,12 @@ export default defineNuxtConfig({
     families: {
       "Ubuntu Mono": true,
       Poppins: true,
+      Tangerine: true,
     },
+  },
+  mongoose: {
+    uri: process.env.MONGODB_URI,
+    options: {},
+    modelsDir: "models",
   },
 })

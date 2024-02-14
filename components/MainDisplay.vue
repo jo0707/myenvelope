@@ -5,6 +5,7 @@
         </Transition>
         <div class="w-full absolute bottom-0 flex justify-between max-w-sm p-2">
             <TheButton icon="i-heroicons-chevron-left" @click="prev()" />
+            <UInput v-model="index" type="number" class="w-12 text-center" />
             <TheButton icon="i-heroicons-chevron-right" @click="next()" />
         </div>
     </div>
@@ -22,13 +23,13 @@ const text = computed(() => {
     return (typeof message === "string") ? message : message?.text ?? ""
 })
 
-watchEffect(() => {
-    let message = dataStore.data?.messages[index.value]
-})
+// watchEffect(() => {
+//     let message = dataStore.data?.messages[index.value]
+// })
 
 function next() {
     if (runningTextStatus.value === "clear" || runningTextStatus.value === "done") {
-        if (index.value < dataStore.data.messages.length) index.value++
+        if (index.value < dataStore.data!.messages.length) index.value++
     }
 }
 function prev() {
