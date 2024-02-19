@@ -45,6 +45,7 @@ watchEffect(() => {
       backgroundColor: [dataStore.data.background.topColor, dataStore.data.background.bottomColor],
       randomOpacity: dataStore.data.background.starOpacity,
       starSize: dataStore.data.background.type == "dot" ? dataStore.data.background.starSize : dataStore.data.background.starSize[1],
+
     }
 
     if (config.type == "line") {

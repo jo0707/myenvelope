@@ -4,7 +4,7 @@
         <UFormGroup label="Link">
             <UInput placeholder="My_Example_Message" v-model="link" />
         </UFormGroup>
-        <UButton label="Bagikan" block @click="submit()" />
+        <UButton label="Bagikan" block @click="submit()" :loading="isLoading" />
         <p v-show="validationError" class="text-xs text-red-400 font-bold break-words whitespace-pre-line">{{
             validationError }}</p>
         <p class="text-xs text-gray-200 break-words">{{ shareLink }}</p>
@@ -20,8 +20,10 @@ const validationError = ref("")
 const baseUrl = window.location.origin
 const link = ref(dataStore.createLink)
 const shareLink = computed(() => `${baseUrl}/hi/${link.value}`)
+const isLoading = ref(false)
 
 function submit() {
+    isLoading.value = true
     validationError.value = ""
     const parse = dataSchema.safeParse(dataStore.data)
 
@@ -53,5 +55,7 @@ watch(() => dataStore.saveResult, (saveResult) => {
             icon: "i-heroicons-x-solid",
         })
     }
+
+    isLoading.value = false
 })
 </script>
