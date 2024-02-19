@@ -1,7 +1,7 @@
 <template>
     <div>
         <button
-            class="flex justify-center place-content-center bg-transparent border border-gray-400 border-opacity-80 text-gray-400 hover:text-gray-200 hover:bg-gray-100 hover:bg-opacity-20 rounded transition p-1">
+            class="flex justify-center place-content-center bg-transparent text-gray-400 hover:text-gray-200 hover:bg-gray-100 hover:bg-opacity-20 rounded transition p-1">
             <p v-if="text">{{ text }}</p>
             <UIcon v-else-if="icon" class="w-5 h-5" :name="icon"></UIcon>
         </button>

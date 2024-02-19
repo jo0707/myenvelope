@@ -11,7 +11,7 @@
             </footer>
         </div>
         <UDivider class="w-min px-2" orientation="vertical" />
-        <DataCreator class="max-md:h-[75vh] md:w-96 overflow-y-auto" />
+        <CreatorForm class="max-md:h-[75vh] md:w-[26rem] overflow-y-auto" />
     </div>
 </template>
 

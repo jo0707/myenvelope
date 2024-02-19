@@ -9,21 +9,25 @@
                 <!-- image -->
                 <Transition appear name="scale">
                     <div v-if="isImageVisible"
-                        class="relative h-48 w-80 object-cover rounded -rotate-2 shadow hover:scale-110 hover:rotate-0 transition duration-700 bg-gray-400 bg-opacity-25 backdrop-blur-sm overflow-clip">
+                        class="relative h-48 w-80 object-cover rounded-sm -rotate-2 bg-gray-200 p-1 pb-4 shadow hover:scale-110 hover:rotate-0 transition duration-700 backdrop-blur-sm overflow-visible">
                         <div v-if="isImageLoading"
-                            class="absolute top-0 left-0 w-full h-full flex place-content-center place-items-center z-40 gap-2">
-                            <p class="text-xs text-gray-400">Loading our image :&rpar;</p>
+                            class="absolute top-0 left-0 w-full h-full flex place-content-center place-items-center z-40 gap-2 bg-gray-400">
+                            <p class="text-xs text-gray-100">Loading our image :&rpar;</p>
                             <UIcon class="w-3 h-3 animate-spin" name="i-heroicons-arrow-path" />
                         </div>
-                        <img class="w-full h-full object-cover z-50 cursor-pointer mx-auto" :src="displayedImage"
-                            @load="isImageLoading = false" @click="isFullImagePreview = true" />
+                        <div class="w-full h-full object-cover relative z-50 flex flex-col gap-1 cursor-pointer mx-auto ">
+                            <img class="object-cover z-10 w-full h-full rounded-sm" :src="displayedImage"
+                                @load="isImageLoading = false" @click="isFullImagePreview = true" />
+                        </div>
                     </div>
                 </Transition>
             </div>
         </Transition>
 
-        <UModal v-model="isFullImagePreview" :ui="{ background: 'bg-transparent' }">
+        <UModal v-model="isFullImagePreview" :ui="{ background: 'bg-transparent rounded-sm overflow-visible' }">
             <ImagePreview :src="displayedImage" :text="displayedText" />
+            <UIcon name="i-heroicons-heart-solid"
+                class="w-12 h-12 rotate-[16deg] absolute -left-4 -bottom-4 text-red-500" />
         </UModal>
     </div>
 </template>
@@ -33,7 +37,7 @@ import { useDataStore } from '~/store/dataStore';
 import { sleep } from '~/utils/timer';
 
 const dataStore = useDataStore()
-const { index, message } = storeToRefs(dataStore)
+const { message } = storeToRefs(dataStore)
 
 const model = defineModel<string>()
 const emits = defineEmits(['done', 'clear', 'start', 'delete'])
@@ -46,7 +50,8 @@ const isImageVisible = ref(false)
 const isImageLoading = ref(false)
 const isFullImagePreview = ref(false)
 
-let isStillMutating = false
+let isMutationInterrupted = false
+let isMutationBeforeSleep = false
 
 const flexPosition = ref("justify-center")
 const textStyles = ref([getTextPosition(), getTextFont()].join(' '))
@@ -61,24 +66,20 @@ watch(message, () => {
     mutateText()
 }, { immediate: true })
 
-// apply properties from message to the component
 async function mutateText() {
-    if (isStillMutating) return
-
     setEvent('delete')
+    if (isMutationBeforeSleep) return
+
+    isMutationInterrupted = true
+    isMutationBeforeSleep = true
     isTextVisible.value = false
-    isStillMutating = true
 
-    // text deleteion animation
-    // while (displayedText.value.length > 0) {
-    //     displayedText.value = displayedText.value.slice(0, -1)
-    //     await sleep(50)
-    // }
-
-    // make sure to check fade transition duration, then add with desired delay amount
+    // fade transition duration + delay per slide
     await sleep(1000)
 
     displayedText.value = ""
+    isMutationInterrupted = false
+    isMutationBeforeSleep = false
     setEvent('clear')
     setEvent('start')
 
@@ -95,15 +96,18 @@ async function mutateText() {
         displayedImage.value = ""
     }
 
-    if (textDisplay.value) textDisplay.value.style.color = message.value.color ?? dataStore.data?.typing.textColor ?? "#FFFFFF"
+    if (textDisplay.value) textDisplay.value.style.color = message.value.color ? message.value.color : dataStore.data?.typing.textColor
+    console.log('mutateText', message.value.color, dataStore.data?.typing.textColor);
+
 
     for (let c of message.value.text) {
+        if (isMutationInterrupted) break
         displayedText.value += c
         await sleep(dataStore.data?.typing.delay ?? 45)
     }
 
     setEvent('done')
-    isStillMutating = false
+    isMutationInterrupted = false
 }
 
 function getFlexPosition() {
@@ -181,6 +185,6 @@ function setEvent(e: 'done' | 'clear' | 'start' | 'delete') {
 .scale-enter-from,
 .scale-leave-to {
     opacity: 0;
-    scale: .3;
+    scale: .8;
 }
 </style>

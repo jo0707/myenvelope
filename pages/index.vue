@@ -10,4 +10,5 @@ import { useDataStore } from '~/store/dataStore';
 const dataStore = useDataStore()
 
 dataStore.fetchDataFromServer()
+
 </script>
