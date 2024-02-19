@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="flex flex-col gap-2">
-            <p class="text-xs text-gray-200">Upload gambar ke <NuxtLink class="text-sky-400 underline"
+            <p class="text-sm text-gray-200">Upload gambar ke <NuxtLink class="text-sky-400 underline"
                     to="https://pasteboard.co/" target="_blank">pasteboard.co</NuxtLink> dan copy link ke kolom
                 gambar</p>
             <p class="text-xs">*Untuk melihat perubahan, silahkan beralih ke slide lain dan kembali lagi</p>

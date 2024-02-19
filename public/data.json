@@ -8,7 +8,11 @@
     "starAngle": 17,
     "starQuantity": 187,
     "starOpacity": [0.1, 0.8],
-    "starSize": [0, 2]
+    "starSize": [0, 2],
+    "lineSpeed": 2,
+    "lineSpread": 0,
+    "lineColorStart": "#140613",
+    "lineColorStop": "#f5f5f5"
   },
   "typing": { "delay": 46, "textColor": "#FEFEFE" },
   "messages": [

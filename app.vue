@@ -36,22 +36,7 @@ let starback: Starback | null = null
 
 watchEffect(() => {
   if (canvas.value && dataStore.data && starback) {
-    starback.config = {
-      width: window.innerWidth,
-      height: window.innerHeight,
-      type: dataStore.data.background.type,
-      quantity: dataStore.data.background.starQuantity,
-      direction: dataStore.data.background.starAngle,
-      backgroundColor: [dataStore.data.background.topColor, dataStore.data.background.bottomColor],
-      randomOpacity: dataStore.data.background.starOpacity,
-      starSize: dataStore.data.background.starSize,
-    }
-  }
-})
-
-onMounted(() => {
-  if (canvas.value) {
-    starback = new Starback(canvas.value, {
+    let config = {
       width: window.innerWidth,
       height: window.innerHeight,
       type: dataStore.data.background.type,
@@ -60,12 +45,40 @@ onMounted(() => {
       backgroundColor: [dataStore.data.background.topColor, dataStore.data.background.bottomColor],
       randomOpacity: dataStore.data.background.starOpacity,
       starSize: dataStore.data.background.type == "dot" ? dataStore.data.background.starSize : dataStore.data.background.starSize[1],
-      // speed: 1,
-      // frequency: 5,
-      // slope: { x: -1, y: 10 },
-      // directionX: 1,
-      // spread: -10,
-    })
+    }
+
+    if (config.type == "line") {
+      config.speed = dataStore.data.background.lineSpeed
+      config.spread = dataStore.data.background.lineSpread
+      config.starColor = [dataStore.data.background.lineColorStart, dataStore.data.background.lineColorStop]
+      config.slope = { x: 0, y: 0 }
+    }
+
+    starback.config = config
+  }
+})
+
+onMounted(() => {
+  if (canvas.value) {
+    let config = {
+      width: window.innerWidth,
+      height: window.innerHeight,
+      type: dataStore.data.background.type,
+      quantity: dataStore.data.background.starQuantity,
+      direction: dataStore.data.background.starAngle,
+      backgroundColor: [dataStore.data.background.topColor, dataStore.data.background.bottomColor],
+      randomOpacity: dataStore.data.background.starOpacity,
+      starSize: dataStore.data.background.type == "dot" ? dataStore.data.background.starSize : dataStore.data.background.starSize[1],
+    }
+
+    if (config.type == "line") {
+      config.speed = dataStore.data.background.lineSpeed
+      config.spread = dataStore.data.background.lineSpread
+      config.starColor = [dataStore.data.background.lineColorStart, dataStore.data.background.lineColorStop]
+      config.slope = { x: 0, y: 0 }
+    }
+
+    starback = new Starback(canvas.value, config)
   }
 })
 </script>

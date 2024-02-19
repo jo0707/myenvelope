@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="flex flex-col divide-y divide-gray-400/50 *:py-2">
-            <UFormGroup label="Warna Langit Atas">
+            <UFormGroup labcel="Warna Langit Atas">
                 <div class="flex gap-2">
                     <UInput class="grow" type="text" icon="i-heroicons-swatch-solid"
                         v-model="dataStore.data.background.topColor" />
@@ -15,11 +15,11 @@
                     <InputColorPicker v-model="dataStore.data.background.bottomColor" />
                 </div>
             </UFormGroup>
-            <!-- <UFormGroup label="Bentuk">
+            <UFormGroup label="Bentuk">
                 <div class="flex gap-2">
                     <URadioGroup :options="starOptions" v-model="dataStore.data.background.type" />
                 </div>
-            </UFormGroup> -->
+            </UFormGroup>
             <UFormGroup label="Jumlah Bintang" :hint="dataStore.data.background.starQuantity.toString()">
                 <URange icon="i-heroicons-anglec-solid" :max="5000" v-model="dataStore.data.background.starQuantity" />
             </UFormGroup>
@@ -38,12 +38,20 @@
             </UFormGroup>
             <UFormGroup label="Ukuran Bintang"
                 :hint="`${(dataStore.data.background.starSize[0])} - ${(dataStore.data.background.starSize[1])}`">
-                <div class="flex gap-2">
+                <div v-if="dataStore.data.background.type == 'dot'" class="flex gap-2">
                     <URange icon="i-heroicons-anglec-solid" :step="0.2" :min="0" :max="15"
                         v-model="dataStore.data.background.starSize[0]" />
                     <URange icon="i-heroicons-anglec-solid" :step="0.2" :min="0" :max="15"
                         v-model="dataStore.data.background.starSize[1]" />
                 </div>
+                <div v-else class="flex gap-2">
+                    <URange icon="i-heroicons-anglec-solid" :step="0.2" :min="0" :max="100"
+                        v-model="dataStore.data.background.starSize[1]" />
+                </div>
+            </UFormGroup>
+            <UFormGroup v-if="dataStore.data.background.type == 'line'" label="Kecepatan Bintang" :hint="`${dataStore.data.background.lineSpeed}`">
+                <URange icon="i-heroicons-anglec-solid" :step="0.1" :min="0" :max="10"
+                    v-model="dataStore.data.background.lineSpeed" />
             </UFormGroup>
         </div>
 

@@ -17,6 +17,10 @@ export const dataSchema = z.object({
     starQuantity: z.number().max(5000).min(0),
     starOpacity: z.array(z.number().max(1).min(0)).length(2),
     starSize: z.array(z.number().max(15)).length(2),
+    lineSpeed: z.number().max(10).min(0),
+    lineSpread: z.number().max(5).min(0),
+    lineColorStart: z.string().length(7).startsWith("#"),
+    lineColorStop: z.string().length(7).startsWith("#"),
   }),
   typing: z.object({ delay: z.number().max(500), textColor: z.string().length(7).startsWith("#") }),
   messages: z.array(
