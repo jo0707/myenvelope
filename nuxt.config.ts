@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   ssr: false,
-  modules: ["@nuxt/ui", "@nuxtjs/google-fonts", "@pinia/nuxt", "@vueuse/nuxt", "nuxt-mongoose"],
+  modules: ["@nuxt/ui", "@nuxtjs/google-fonts", "@pinia/nuxt", "@vueuse/nuxt", "nuxt-mongoose", "nuxt-security"],
   colorMode: {
     preference: "dark",
   },
@@ -17,5 +17,15 @@ export default defineNuxtConfig({
     uri: process.env.MONGODB_URI,
     options: {},
     modelsDir: "models",
+  },
+  routeRules: {
+    "/api/envelope": {
+      security: {
+        rateLimiter: {
+          tokensPerInterval: 5,
+          interval: 10000,
+        },
+      },
+    },
   },
 })

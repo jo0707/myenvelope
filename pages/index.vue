@@ -1,6 +1,12 @@
 <template>
-    <div class="h-full flex gap-2">
-        <MainDisplay />
+    <div class="h-full w-full">
+        <Transition name="fade">
+            <ErrorScreen class="h-full w-full fixed top-0 left-0" v-if="dataStore.error" />
+            <LoadingScreen class="h-full w-full fixed top-0 left-0" v-else-if="!dataStore.data" />
+            <UContainer v-else class="w-full h-full">
+                <TheDisplay class="h-full w-full relative z-50" />
+            </UContainer>
+        </Transition>
     </div>
 </template>
 
@@ -8,7 +14,9 @@
 import { useDataStore } from '~/store/dataStore';
 
 const dataStore = useDataStore()
-
 dataStore.fetchDataFromServer()
 
+watchEffect(() => {
+    console.log(dataStore.data)
+})
 </script>

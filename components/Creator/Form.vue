@@ -23,9 +23,7 @@
                 <CreatorMessages />
             </template>
         </UAccordion>
-
         <UDivider />
-
         <CreatorSubmit />
     </div>
 </template>

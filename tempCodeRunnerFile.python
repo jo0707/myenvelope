@@ -1,0 +1,5 @@
+class Kucing:
+    def __init__(self, name = "test") -> None:
+        self.name = name
+        
+print(Kucing().name)

@@ -8,8 +8,8 @@
 
             <!-- message cards -->
             <TransitionGroup tag="ul" name="fade" class="flex flex-col gap-2 relative">
-                <li v-for="(message, i) in dataStore.data.messages"
-                    class="flex flex-col *:py-1 rounded border-2 border-gray-400/50 p-2 shadow" :key="i">
+                <li v-for="(message, i) in dataStore.data.messages" class="flex flex-col *:py-1 rounded border p-2 shadow"
+                    :key="i">
                     <UFormGroup :label="`#${i + 1}`">
                         <UTextarea v-model="message.text" autoresize placeholder="Masukkan teks disini..." />
                         <template #hint>

@@ -56,6 +56,6 @@ watch(() => dataStore.saveResult, (saveResult) => {
         })
     }
 
-    isLoading.value = false
+
 })
 </script>

@@ -1,21 +1,7 @@
 <template>
-    <div>
-        <UContainer class="h-screen flex flex-col ">
-            <header></header>
-
-            <main class="grow">
-                <slot></slot>
-            </main>
-
-
-            <UDivider />
-            <footer class="py-4 ">
-                <AudioPlayer />
-            </footer>
-        </UContainer>
+    <div class="h-screen flex flex-col">
+        <main class="grow m-4">
+            <slot></slot>
+        </main>
     </div>
 </template>
-
-<script setup lang="ts">
-
-</script>

@@ -3,11 +3,12 @@ import { useStorage } from "@vueuse/core"
 import type { EnvelopeResponse } from "~/types/response/envelopeResponse"
 
 export const useDataStore = defineStore("data", () => {
-  const data = useStorage("data", defaultData)
+  const data = ref<Data | null>(null)
+  const editableData = useStorage("data", defaultData)
+  const displayData = useStorage("displayData", defaultData)
   const createLink = useStorage("create_link", "")
 
   const error = ref<{ message: string; code: number } | null>(null)
-  const loading = ref(true)
   const saveResult = ref<{ success: boolean; message: string } | null>(null)
 
   const splashClicked = ref(false)
@@ -23,8 +24,8 @@ export const useDataStore = defineStore("data", () => {
     return me
   })
 
-  watchEffect(() => {
-    createLink.value = createLink.value.replace(/[^a-zA-Z0-9_-]/g, "").replace(" ", "_")
+  watch(createLink, () => {
+    createLink.value = createLink.value.replace(" ", "_").replace(/[^a-zA-Z0-9_-]/g, "")
   })
 
   async function fetchDataFromServer(slug: string | null = null) {
@@ -43,22 +44,20 @@ export const useDataStore = defineStore("data", () => {
       const parsed = JSON.parse(await response.text())
       const responseData = slug ? JSON.parse(parsed.data) : parsed
 
-      console.log(responseData)
-
-      data.value = { ...defaultData, ...responseData }
+      displayData.value = { ...defaultData, ...responseData }
+      data.value = displayData.value
     } catch (e) {
       console.error("Error fetching data:", e)
       error.value = {
         code: 500,
         message: e.message,
       }
-    } finally {
-      loading.value = false
     }
   }
 
   async function fetchDataFromLocal() {
-    data.value = localStorage.getItem("data") ? JSON.parse(localStorage.getItem("data")!) : defaultData
+    editableData.value = localStorage.getItem("data") ? JSON.parse(localStorage.getItem("data")!) : defaultData
+    data.value = editableData.value
   }
 
   async function saveToServer() {

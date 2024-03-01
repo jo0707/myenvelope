@@ -2,14 +2,18 @@
     <div class="max-w-4xl w-full flex" :class="flexPosition">
         <Transition appear name="fade">
             <div v-show="isTextVisible" class="max-w-3xl flex flex-col gap-4 place-content-center place-items-center">
-                <p ref="textDisplay" :class="textStyles" class="whitespace-pre-line">{{ displayedText }}<span
+                <p ref="textDisplay" :class="textStyles" class="whitespace-pre-line">{{ displayedText }}<span ref="caret"
                         class="caret text-gray-400">|</span>
                 </p>
 
                 <!-- image -->
                 <Transition appear name="scale">
                     <div v-if="isImageVisible"
-                        class="relative h-48 w-80 object-cover rounded-sm -rotate-2 bg-gray-200 p-1 pb-4 shadow hover:scale-110 hover:rotate-0 transition duration-700 backdrop-blur-sm overflow-visible">
+                        class="relative h-48 w-80 object-cover rounded-sm -rotate-2 bg-gray-200 p-1 pb-4 shadow hover:scale-110 hover:rotate-0 transition duration-700 overflow-visible group">
+                        <UIcon
+                            class="w-6 h-6 text-red-500 absolute -bottom-2 -left-2 rotate-12 group-hover:-rotate-6 transition duration-700"
+                            name="i-heroicons-heart-solid" />
+
                         <div v-if="isImageLoading"
                             class="absolute top-0 left-0 w-full h-full flex place-content-center place-items-center z-40 gap-2 bg-gray-400">
                             <p class="text-xs text-gray-100">Loading our image :&rpar;</p>
@@ -57,6 +61,7 @@ const flexPosition = ref("justify-center")
 const textStyles = ref([getTextPosition(), getTextFont()].join(' '))
 
 const textDisplay = ref<HTMLElement | null>(null)
+const caret = ref<HTMLElement | null>(null)
 
 watch(() => dataStore.data.typing.textColor, () => {
     if (textDisplay.value) textDisplay.value.style.color = dataStore.data.typing.textColor
@@ -97,8 +102,7 @@ async function mutateText() {
     }
 
     if (textDisplay.value) textDisplay.value.style.color = message.value.color ? message.value.color : dataStore.data?.typing.textColor
-    console.log('mutateText', message.value.color, dataStore.data?.typing.textColor);
-
+    if (caret.value) caret.value.style.color = message.value.color ? message.value.color : dataStore.data?.typing.textColor
 
     for (let c of message.value.text) {
         if (isMutationInterrupted) break
