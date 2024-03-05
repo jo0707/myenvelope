@@ -2,8 +2,8 @@
     <div class="max-w-4xl w-full flex" :class="flexPosition">
         <Transition appear name="fade">
             <div v-show="isTextVisible" class="max-w-3xl flex flex-col gap-4 place-content-center place-items-center">
-                <p ref="textDisplay" :class="textStyles" class="whitespace-pre-line">{{ displayedText }}<span ref="caret"
-                        class="caret text-gray-400">|</span>
+                <p ref="textDisplay" :class="textStyles" class="whitespace-pre-line">{{ displayedText }}<span
+                        ref="caret" class="caret text-gray-400">|</span>
                 </p>
 
                 <!-- image -->
@@ -19,7 +19,8 @@
                             <p class="text-xs text-gray-100">Loading our image :&rpar;</p>
                             <UIcon class="w-3 h-3 animate-spin" name="i-heroicons-arrow-path" />
                         </div>
-                        <div class="w-full h-full object-cover relative z-50 flex flex-col gap-1 cursor-pointer mx-auto ">
+                        <div
+                            class="w-full h-full object-cover relative z-50 flex flex-col gap-1 cursor-pointer mx-auto ">
                             <img class="object-cover z-10 w-full h-full rounded-sm" :src="displayedImage"
                                 @load="isImageLoading = false" @click="isFullImagePreview = true" />
                         </div>
@@ -94,12 +95,7 @@ async function mutateText() {
     isTextVisible.value = true
     isImageVisible.value = (!!message.value.image && message.value.image !== "")
     isImageLoading.value = isImageVisible.value
-
-    if (message.value.image) {
-        displayedImage.value = message.value.image.includes("pasteboard.co") ? `https://gcdnb.pbrd.co/images/${message.value.image.split("/").pop()}?o=1` : message.value.image
-    } else {
-        displayedImage.value = ""
-    }
+    displayedImage.value = message.value.image ? `/api/image?url=${message.value.image}` : ""
 
     if (textDisplay.value) textDisplay.value.style.color = message.value.color ? message.value.color : dataStore.data?.typing.textColor
     if (caret.value) caret.value.style.color = message.value.color ? message.value.color : dataStore.data?.typing.textColor
