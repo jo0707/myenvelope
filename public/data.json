@@ -17,7 +17,7 @@
   "typing": { "delay": 46, "textColor": "#FEFEFE" },
   "messages": [
     {
-      "text": "Hi there! Welcome to MyEnvelope. You can create a cool message here. To create, just click the link below",
+      "text": "Hi there! Welcome to MyEnvelope. You can create a cool message here. To create, just click the create button below",
       "position": 2,
       "image": "",
       "type": "",

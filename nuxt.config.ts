@@ -13,6 +13,9 @@ export default defineNuxtConfig({
       Tangerine: true,
     },
   },
+  ui: {
+    icons: ["mdi"],
+  },
   mongoose: {
     uri: process.env.MONGODB_URI,
     options: {},

@@ -6,7 +6,7 @@
         </UFormGroup>
         <UButton label="Bagikan" block @click="submit()" :loading="isLoading" />
         <p v-show="validationError" class="text-xs text-red-400 font-bold break-words whitespace-pre-line">{{
-            validationError }}</p>
+                validationError }}</p>
         <p class="text-xs text-gray-200 break-words">{{ shareLink }}</p>
     </div>
 </template>
@@ -54,8 +54,8 @@ watch(() => dataStore.saveResult, (saveResult) => {
             color: 'red',
             icon: "i-heroicons-x-solid",
         })
+
+        isLoading.value = false
     }
-
-
 })
 </script>

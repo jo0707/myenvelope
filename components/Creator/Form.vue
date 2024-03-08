@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-gray-900/80 backdrop-blur-sm shadow rounded-lg flex flex-col gap-2 p-4">
+    <div class="bg-gray-900/80 backdrop-blur-sm shadow rounded-lg flex flex-col gap-2 p-2 md:p-4">
         <h1>Desain Pesanmu</h1>
 
         <UAccordion :items="items" variant="soft" size="xs">
