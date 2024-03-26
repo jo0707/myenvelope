@@ -1,54 +1,54 @@
 <template>
     <div>
         <div class="flex flex-col divide-y divide-gray-400/50 *:py-2">
-            <UFormGroup labcel="Warna Langit Atas">
+            <UFormGroup :label="$t('topSkyColor')">
                 <div class="flex gap-2">
                     <UInput class="grow" type="text" icon="i-heroicons-swatch-solid"
                         v-model="dataStore.data.background.topColor" />
                     <InputColorPicker v-model="dataStore.data.background.topColor" />
                 </div>
             </UFormGroup>
-            <UFormGroup label="Warna Langit Bawah">
+            <UFormGroup :label="$t('bottomSkyColor')">
                 <div class="flex gap-2">
                     <UInput class="grow" type="text" icon="i-heroicons-swatch-solid"
                         v-model="dataStore.data.background.bottomColor" />
                     <InputColorPicker v-model="dataStore.data.background.bottomColor" />
                 </div>
             </UFormGroup>
-            <UFormGroup label="Bentuk">
+            <UFormGroup :label="$t('shape')">
                 <div class="flex gap-2">
                     <URadioGroup :options="starOptions" v-model="dataStore.data.background.type" />
                 </div>
             </UFormGroup>
-            <UFormGroup v-show="dataStore.data.background.type == 'line'" label="Warna Bintang Atas">
+            <UFormGroup v-show="dataStore.data.background.type == 'line'" :label="$t('topStarsColor')">
                 <div class="flex gap-2">
                     <UInput class="grow" type="text" icon="i-heroicons-swatch-solid"
                         v-model="dataStore.data.background.lineColorStart" />
                     <InputColorPicker v-model="dataStore.data.background.lineColorStart" />
                 </div>
             </UFormGroup>
-            <UFormGroup v-show="dataStore.data.background.type == 'line'" label="Warna Bintang Bawah">
+            <UFormGroup v-show="dataStore.data.background.type == 'line'" :label="$t('bottomStarsColor')">
                 <div class="flex gap-2">
                     <UInput class="grow" type="text" icon="i-heroicons-swatch-solid"
                         v-model="dataStore.data.background.lineColorStop" />
                     <InputColorPicker v-model="dataStore.data.background.lineColorStop" />
                 </div>
             </UFormGroup>
-            <UFormGroup label="Jumlah Bintang" :hint="dataStore.data.background.starQuantity.toString()">
+            <UFormGroup :label="$t('starsCount')" :hint="dataStore.data.background.starQuantity.toString()">
                 <URange :max="5000" v-model="dataStore.data.background.starQuantity" />
             </UFormGroup>
-            <UFormGroup label="Arah Bintang" :hint="`${dataStore.data.background.starAngle}°`">
+            <UFormGroup :label="$t('starsDirection')" :hint="`${dataStore.data.background.starAngle}°`">
                 <URange :max="360" v-model="dataStore.data.background.starAngle" />
             </UFormGroup>
 
-            <UFormGroup label="Kecerahan Bintang"
+            <UFormGroup :label="$t('starsOpacity')"
                 :hint="`${(dataStore.data.background.starOpacity[0] * 100).toPrecision(3)}% - ${(dataStore.data.background.starOpacity[1] * 100).toPrecision(3)}%`">
                 <div class="flex gap-2">
                     <URange :step="0.01" :min="0" :max="1" v-model="dataStore.data.background.starOpacity[0]" />
                     <URange :step="0.01" :min="0" :max="1" v-model="dataStore.data.background.starOpacity[1]" />
                 </div>
             </UFormGroup>
-            <UFormGroup label="Ukuran Bintang"
+            <UFormGroup :label="$t('starsSize')"
                 :hint="`${(dataStore.data.background.starSize[0])} - ${(dataStore.data.background.starSize[1])}`">
                 <div v-if="dataStore.data.background.type == 'dot'" class="flex gap-2">
                     <URange :step="0.2" :min="0" :max="15" v-model="dataStore.data.background.starSize[0]" />
@@ -59,14 +59,14 @@
                         v-model="dataStore.data.background.starSize[1]" />
                 </div>
             </UFormGroup>
-            <UFormGroup v-if="dataStore.data.background.type == 'line'" label="Kecepatan Bintang"
+            <UFormGroup v-if="dataStore.data.background.type == 'line'" :label="$t('starsSpeed')"
                 :hint="`${dataStore.data.background.lineSpeed}`">
                 <URange icon="i-heroicons-anglec-solid" :step="0.1" :min="0" :max="10"
                     v-model="dataStore.data.background.lineSpeed" />
             </UFormGroup>
         </div>
 
-        <UButton label="Muat Ulang" @click="reload" block class="mt-2" size="xs" />
+        <UButton :label="$t('reload')" @click="reload" block class="mt-2" size="xs" />
         <p class="text-xs">*Untuk melihat perubahan silahkan refresh halaman, data aman tersimpan kok :&rpar;</p>
     </div>
 </template>

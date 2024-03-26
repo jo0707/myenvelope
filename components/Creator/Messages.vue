@@ -1,10 +1,9 @@
 <template>
     <div>
         <div class="flex flex-col gap-2">
-            <p class="text-sm text-gray-200">Upload gambar ke <NuxtLink class="text-sky-400 underline"
-                    to="https://pasteboard.co/" target="_blank">pasteboard.co</NuxtLink> dan copy link ke kolom
-                gambar</p>
-            <p class="text-xs">*Untuk melihat perubahan, silahkan beralih ke slide lain dan kembali lagi</p>
+            <p class="text-sm text-gray-200">{{ $t('uploadImageTo') }} <NuxtLink class="text-sky-400 underline"
+                    to="https://pasteboard.co/" target="_blank">pasteboard.co</NuxtLink> {{ $t('thenCopyLink') }} </p>
+            <p class="text-xs">*{{ $t('slideToSeeChanges') }}</p>
 
             <!-- message cards -->
             <TransitionGroup tag="ul" name="fade" class="flex flex-col gap-2 relative">
@@ -25,37 +24,37 @@
                     </UFormGroup>
                     <UFormGroup>
                         <div class="flex justify-between">
-                            <URadio label="Kiri" value="1" v-model="message.position" />
-                            <URadio label="Tengah" value="2" v-model="message.position" />
-                            <URadio label="Kanan" value="3" v-model="message.position" />
+                            <URadio :label="$t('left')" value="1" v-model="message.position" />
+                            <URadio :label="$t('right')" value="2" v-model="message.position" />
+                            <URadio :label="$t('middle')" value="3" v-model="message.position" />
                         </div>
                     </UFormGroup>
-                    <UFormGroup label="Gambar">
+                    <UFormGroup :label="$t('image')">
                         <UInput v-model="message.image" size="xs" placeholder="https://pasteboard.co/..." />
                     </UFormGroup>
-                    <UFormGroup label="Warna">
+                    <UFormGroup :label="$t('color')">
                         <div class="flex gap-2">
                             <UInput size="xs" class="grow" type="text" v-model="message.color"
                                 :placeholder="dataStore.data.typing.textColor" />
-                            <input type="color" class="rounded " v-model="message.color" />
+                            <input type="color" class="rounded" v-model="message.color" />
                         </div>
                     </UFormGroup>
-                    <UFormGroup label="Gaya Teks">
+                    <UFormGroup :label="$t('textStyle')">
                         <USelect :options="['text', 'quote']" v-model="message.type" />
                     </UFormGroup>
                 </li>
             </TransitionGroup>
 
-            <UButton icon="i-heroicons-plus" label="New Message" variant="outline" block
+            <UButton icon="i-heroicons-plus" :label="$t('newMessage')" variant="outline" block
                 @click="dataStore.data.messages.push(getMessage(''))" />
         </div>
 
         <UModal v-model="isDeleteMessage">
             <UCard class="text-center">
-                <p>Yakin ingin menghapus pesan ini?</p>
+                <p>{{ $t('deleteThisMessage') }}?</p>
                 <div class="grid grid-cols-2 gap-2">
-                    <UButton variant="outline" block label="Batal" @click="indexToDelete = -1" />
-                    <UButton variant="outline" block label="Hapus" color="red"
+                    <UButton variant="outline" block :label="$t('cancel')" @click="indexToDelete = -1" />
+                    <UButton variant="outline" block :label="$t('delete')" color="red"
                         @click="dataStore.data.messages.splice(indexToDelete, 1); indexToDelete = -1" />
                 </div>
             </UCard>

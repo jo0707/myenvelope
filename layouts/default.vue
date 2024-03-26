@@ -4,9 +4,16 @@
             <slot></slot>
         </main>
 
-        <footer class="fixed bottom-0 right-0">
+        <footer class="fixed bottom-0 left-0 w-full flex justify-between">
             <button
-                class="text-gray-400 rounded p-[3px] px-2 m-2 outline-gray-400 hover:text-gray-100 hover:bg-white hover:bg-opacity-15 transition flex gap-1 place-items-center"
+                class="text-gray-400 relative z-50 rounded p-[3px] px-2 m-2 outline-gray-400 hover:text-gray-100 hover:bg-white hover:bg-opacity-15 transition flex gap-1 place-items-center"
+                @click="changeLocale">
+                <UIcon class="w-4 h-4" name="i-heroicons-language-solid" />
+                <p class="text-sm">{{ locale }}</p>
+            </button>
+
+            <button
+                class="text-gray-400 relative z-50 rounded p-[3px] px-2 m-2 outline-gray-400 hover:text-gray-100 hover:bg-white hover:bg-opacity-15 transition flex gap-1 place-items-center"
                 @click="isCreditOpen = true">
                 <UIcon class="w-4 h-4" name="i-heroicons-information-circle" />
                 <p class="text-sm">Hi</p>
@@ -37,4 +44,10 @@
 
 <script setup lang="ts">
 const isCreditOpen = ref(false)
+const { locale } = useI18n()
+const switchLocalePath = useSwitchLocalePath()
+
+function changeLocale() {
+    navigateTo(locale.value == 'en' ? switchLocalePath('id') : switchLocalePath('en'))
+}
 </script>

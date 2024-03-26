@@ -2,7 +2,15 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   ssr: false,
-  modules: ["@nuxt/ui", "@nuxtjs/google-fonts", "@pinia/nuxt", "@vueuse/nuxt", "nuxt-mongoose", "nuxt-security"],
+  modules: [
+    "@nuxt/ui",
+    "@nuxtjs/google-fonts",
+    "@pinia/nuxt",
+    "@vueuse/nuxt",
+    "nuxt-mongoose",
+    "nuxt-security",
+    "@nuxtjs/i18n",
+  ],
   colorMode: {
     preference: "dark",
   },
@@ -30,5 +38,19 @@ export default defineNuxtConfig({
         },
       },
     },
+  },
+  i18n: {
+    strategy: "prefix_except_default",
+    defaultLocale: "en",
+    locales: [
+      {
+        code: "en",
+        name: "English",
+      },
+      {
+        code: "id",
+        name: "Indonesia",
+      },
+    ],
   },
 })

@@ -1,6 +1,6 @@
 <template>
     <div class="bg-gray-900/80 backdrop-blur-sm shadow rounded-lg flex flex-col gap-2 p-2 md:p-4">
-        <h1>Desain Pesanmu</h1>
+        <h1>{{ $t('createYours') }}</h1>
 
         <UAccordion :items="items" variant="soft" size="xs">
             <template #personalization>
@@ -29,25 +29,27 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n()
+
 const items = [{
-    label: 'Personalisasi',
+    label: t('personalization'),
     slot: "personalization",
     icon: 'i-heroicons-user-circle-solid',
     defaultOpen: true,
 }, {
-    label: 'Latar Belakang',
+    label: t('background'),
     slot: "background",
     icon: 'i-heroicons-photo-solid',
 }, {
-    label: 'Musik',
+    label: t('music'),
     slot: "music",
     icon: 'i-heroicons-musical-note-solid',
 }, {
-    label: 'Gaya Ketik',
+    label: t('writingStyle'),
     slot: "typing",
     icon: 'i-heroicons-pencil-square-solid',
 }, {
-    label: 'Pesan',
+    label: t('message'),
     slot: "messages",
     icon: 'i-heroicons-envelope-solid',
 },]

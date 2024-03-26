@@ -1,15 +1,16 @@
 <template>
     <div>
         <div class="flex flex-col divide-y divide-gray-400/50 *:py-2">
-            <UFormGroup label="Lagu">
+            <UFormGroup :label="$t('song')">
                 <URadioGroup v-model="dataStore.data.music.id" :options="songOptions"
                     :uiRadio="{ container: 'items-start' }" />
             </UFormGroup>
-            <UFormGroup label="Volume" :hint="`${dataStore.data.music.volume}%`">
-                <URange icon="i-heroicons-speaker-wave-solid" v-model="dataStore.data.music.volume" :min="0" :max="100" />
+            <UFormGroup :label="$t('volume')" :hint="`${dataStore.data.music.volume}%`">
+                <URange icon="i-heroicons-speaker-wave-solid" v-model="dataStore.data.music.volume" :min="0"
+                    :max="100" />
             </UFormGroup>
-            <UCheckbox label="Putar Otomatis" v-model="dataStore.data.music.autoplay" />
-            <UCheckbox label="Ulang Otomatis" v-model="dataStore.data.music.loop" />
+            <UCheckbox :label="$t('autoplay')" v-model="dataStore.data.music.autoplay" />
+            <UCheckbox :label="$t('autoreplay')" v-model="dataStore.data.music.loop" />
         </div>
     </div>
 </template>

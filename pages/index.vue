@@ -3,10 +3,10 @@
         <Transition name="fade">
             <ErrorScreen class="h-full w-full fixed top-0 left-0" v-if="dataStore.error" />
             <LoadingScreen class="h-full w-full fixed top-0 left-0" v-else-if="!dataStore.data" />
-            <UContainer v-else class="w-full h-full flex flex-col place-items-center gap-2">
+            <UContainer v-else class="w-full h-full flex flex-col place-items-center gap-2 relative">
                 <TheDisplay class="h-full w-full relative z-50" />
-                <UButton variant="outline" color="gray" icon="i-heroicons-plus-circle-solid" label="Create" to="/create"
-                    size="xs" />
+                <UButton class="z-20" variant="outline" color="gray" icon="i-heroicons-plus-circle-solid" label="Create"
+                    to="/create" size="xs" />
             </UContainer>
         </Transition>
     </div>

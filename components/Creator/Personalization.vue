@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <UFormGroup label="Nama Sapaan">
+            <UFormGroup :label="$t('nickname')">
                 <UInput icon="i-heroicons-user-circle-solid" v-model="dataStore.data.name" maxlength="64" />
             </UFormGroup>
         </div>

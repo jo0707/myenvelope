@@ -3,9 +3,9 @@
         <Transition name="fade">
             <ErrorScreen class="h-full w-full fixed top-0 left-0" v-if="dataStore.error" />
             <LoadingScreen class="h-full w-full fixed top-0 left-0" v-else-if="!dataStore.data" />
-            <div v-else class="h-full w-full relative z-50 flex max-md:flex-col gap-2">
+            <div v-else class="h-full w-full relative z-40 flex max-md:flex-col gap-2">
                 <UContainer class="w-full h-full">
-                    <TheDisplay class="h-full w-full relative z-50" />
+                    <TheDisplay class="h-full w-full relative z-40" />
                 </UContainer>
                 <UDivider class="w-min px-2" orientation="vertical" />
                 <CreatorForm
@@ -20,4 +20,8 @@ import { useDataStore } from '~/store/dataStore';
 
 const dataStore = useDataStore()
 dataStore.fetchDataFromLocal()
+
+var userLang = navigator.language;
+console.log(userLang);
+
 </script>

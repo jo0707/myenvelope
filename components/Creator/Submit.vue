@@ -1,12 +1,12 @@
 <template>
     <div class="w-full flex flex-col gap-2">
-        <h3>Bagikan</h3>
-        <UFormGroup label="Link">
-            <UInput placeholder="My_Example_Message" v-model="link" />
+        <h3>{{ $t('share') }}</h3>
+        <UFormGroup :label="$t('link')">
+            <UInput placeholder="example: Tis_ForYou" v-model="link" />
         </UFormGroup>
-        <UButton label="Bagikan" block @click="submit()" :loading="isLoading" />
+        <UButton :label="$t('share')" block @click="submit()" :loading="isLoading" />
         <p v-show="validationError" class="text-xs text-red-400 font-bold break-words whitespace-pre-line">{{
-                validationError }}</p>
+            validationError }}</p>
         <p class="text-xs text-gray-200 break-words">{{ shareLink }}</p>
     </div>
 </template>
