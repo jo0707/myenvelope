@@ -1,5 +1,4 @@
 export default defineI18nConfig(() => ({
-  legacy: false,
   locale: "en",
   messages: {
     en: {
@@ -37,7 +36,11 @@ export default defineI18nConfig(() => ({
       textColor: "Text Color",
       share: "Share",
       link: "Link",
-
+      personal: "Personalization",
+      background: "Background",
+      music: "Music",
+      writingStyle: "Writing Style",
+      message: "Message",
     },
     id: {
       createYours: "Buat Pesanmu",
