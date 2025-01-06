@@ -2,6 +2,7 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   ssr: false,
+
   modules: [
     "@nuxt/ui",
     "@nuxtjs/google-fonts",
@@ -11,9 +12,11 @@ export default defineNuxtConfig({
     "nuxt-security",
     "@nuxtjs/i18n",
   ],
+
   colorMode: {
     preference: "dark",
   },
+
   googleFonts: {
     families: {
       "Ubuntu Mono": true,
@@ -21,14 +24,17 @@ export default defineNuxtConfig({
       Tangerine: true,
     },
   },
+
   ui: {
     icons: ["mdi"],
   },
+
   mongoose: {
     uri: process.env.MONGODB_URI,
     options: {},
     modelsDir: "models",
   },
+
   routeRules: {
     "/api/envelope": {
       security: {
@@ -39,6 +45,7 @@ export default defineNuxtConfig({
       },
     },
   },
+
   i18n: {
     strategy: "prefix_except_default",
     defaultLocale: "en",
@@ -53,4 +60,6 @@ export default defineNuxtConfig({
       },
     ],
   },
+
+  compatibilityDate: "2025-01-06",
 })

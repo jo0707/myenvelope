@@ -27,7 +27,7 @@
                 <div class="relative z-10 text-xs text-center flex flex-col gap-1">
                     <p>Made with ❤ by Jo</p>
                     <i class="text-gray-400">My gratitude to <span
-                            class="bg-gray-400 transition select-none hover:bg-transparent hover:text-opacity-75 rounded">Loxky</span>
+                            class="bg-gray-400 transition select-none hover:bg-transparent hover:text-opacity-20 rounded">Loxky</span>
                         for being my inspiration to build this ツ.</i>
 
                     <div class="mt-4 flex place-content-center gap-8">
