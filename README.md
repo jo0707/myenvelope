@@ -12,7 +12,7 @@
 
 Try It : [MyEnvelope](https://myenvelope.vercel.app/)
 <br>
-Try It : [MyEnvelope (envelope.jooo.my.id)](https://envelope.jooo.my.id/)
+Try It : [MyEnvelope (envelope.jooo.site)](https://envelope.jooo.site/)
 
 <p align="center">
   <img src="screenshots/main.png" />
